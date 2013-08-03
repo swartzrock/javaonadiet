@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Java on a Diet</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/scala.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="custom/highlight.js/styles/googlecode.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body id="body">
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+<!--
+START THE SLIDESHOW
+-->
+
+      <section> 
+        <div class="expressive c3" style="font-size: 100px;">
+        Welcome to <br>"Java On A Diet"
+        </div>
+        <ul>
+          <li>Press right-arrow to advance</li>
+          <li>Press 's' to view speaker notes</li>
+          <li> <a href="http://twitter.com/swartzrock">Tweet Me</a> with feedback or questions </li>
+        </ul>
+        <div><br> Jason Swartz</div>
+         <aside class="notes">
+         And admittedly having a possibly well-deserved reputation as being somewhat
+         hard to fully grasp and learn
+        </aside>
+     </section>
+
+
+
+      <section> 
+        <h1>Java on a Diet</h1>
+        <h2 class="fragment">ie, Scala</h2>
+        <h3 class="fragment">by Jason Swartz</h3>
+        <aside class="notes">
+          Hi and thank you for coming to Java on a Diet.
+          Or as you probably know it, Scala.<br>
+          * I'm Jason Swartz, former Java developer, now Scala developer.<br>
+          * If you're new to Scala this is a great place to be.<br>
+          * Highly recommend it to Java/Python/Ruby devs <br>
+          * Picked up Scala working for Loyal3, now on a Scala team at Netflix
+          building out sites and tools for our device partners.
+
+        </aside>
+      </section>
+
+
+      <section> 
+        <img src="images/learning_scala_comp2.jpg">
+        <aside class="notes">
+        * I'm also a writing a new book about Scala <br>
+        * We need an intro to lang that starts with syntax and OO<br>
+        * Keeps FP features on the back burner til you get effective<br>
+        It's coming out this fall. There are other fine books
+        on Scala written by some wonderful people, but 
+        they haven't been written yet.
+        </aside>
+
+      </section>
+
+
+      <section> 
+        <h2>Scala</h2>
+        <ul>
+          <li class="fragment"><b>Sca</b>lable <b>La</b>nguage</li>
+          <li class="fragment">Created by Martin Odersky, <b>javac</b> developer</li>
+          <li class="fragment">Uses Java classes</li>
+          <li class="fragment">Compiles to Java classes</li>
+          <li class="fragment">Executes as Java classes</li>
+        </ul>
+        <aside class="notes">
+        * So, I want to welcome those of you who are new to Scala with a short intro <br>
+        * This talk is going to be about Scala, but also a bit about Java
+        </aside>        
+      </section>
+
+      <section> 
+        <h2>Thus, Scala</h2>
+        <ol class="fragment">
+          <li class="fragment">Higher Order Functions</li>
+          <li class="fragment">Immutable Data Structures</li>
+          <li class="fragment">Type Inference</li>
+          <li class="fragment">Mixins with <b>Traits</b></li>
+          <li class="fragment">Extensible with <b>Implicits</b></li>
+          <li class="fragment">AND Java Compatibility</li>
+        </ol>
+     </section>
+
+ 
+
+
+
+
+      <section> 
+        <h2>Java Coding Test</h2>
+        <aside class="notes">
+        So..
+        Not not for you guys. I want to tell you something I noticed.
+
+        So at my recent startup we gave coding tests to incoming 
+        engineering candidates, on-site. It's really hard to hire
+        folks who are already Scala experts so we mostly got folks
+        with a Java background and an interest in learning Scala.
+        </aside>
+      </section>
+
+      <section> 
+        <h2>Java Coding Test</h2>
+        <aside class="notes">
+        * Coding challenge was straightforward <br>
+        * Exception too many were unable to finish in an hour, odd. <br>
+        * What was really odd was when we looked at their solution,
+        their code wasn't too short. It was actually often longer than
+        we expected, 4-8 pages of Java code.<br>
+        * There would be some functionality missing,
+        or maybe they hadn't written unit tests, but they had written
+        plenty of code.
+        </aside>
+      </section>
+
+
+      <section> 
+        <h2>Java Coding Test</h2>
+        <aside class="notes">
+        Its just that the code didn't seem germane to the solution.
+        So if they hadn't finished the solution, leaving off core functionality
+        or unit testing, why spend all that time typing out pages of code?
+
+        What did they write if not the core solution code? Where did they spend their time?
+        </aside>
+      </section>
+
+
+      <section> 
+
+        <section> 
+          <pre><code contenteditable="true">
+public class Node {
+    private Date lastModified;
+    private Date created;
+    public Node(Date lastModified, Date created) {
+        this.lastModified = lastModified;
+        this.created = created;
+    }
+    public Date getLastModified() { return lastModified; }
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+    public Date getCreated() { return created; }
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+}
+</code></pre>
+          <aside class="notes">
+          Well, on classes like this. Mind you this is the standard implementation
+          of a pattern known as a Java bean, here providing a full constructor
+          and getters and setters for a total of two properties.
+          And that's because two was all I could fit on this screen, its far 
+          more common to squeeze in 4 or 8.
+          I'm prepared to admit that many of you fine folks may be taking this in
+          and saying to yourselves.... so?
+          
+          </aside>
+        </section>
+
+
+
+
+        <section>
+        <img src="images/sense-this-picture-makes-none.jpg" height="500">
+        </section>
+
+      </section>
+
+
+
+
+      <section> 
+        <pre><code contenteditable="true">
+class Node(var lastModified: Date, var created: Date)
+        </code></pre>
+         <aside class="notes">
+         This is all you'd need for the same functionality in Scala.
+         A one liner that defines a class that takes two variables in its
+         constructor and generates getters and setters for you.
+
+         Since it uses one line instead of 15 it's easier to write,
+         easier to read, and easier to change. And if this was available
+         in Java it would have been a far better choice during a timed
+         coding test.
+        </aside>
+     </section>
+
+
+
+      <section> 
+        <pre><code contenteditable="true">
+case class Node(var lastModified: Date, var created: Date)
+// class Node(var lastModified: Date, var created: Date)
+        </code></pre>
+         <aside class="notes">
+         More appropriate would be adding the keyword case to make
+         this a case class. It's a shortcut class in Scala that provides
+         useful things like creating an object with a factory method, implementing
+         the Java methods equals, hashcode and toString, not to mention
+         handling the constructor, getters and setters.
+        </aside>
+     </section>
+
+
+
+      <section> 
+        <pre><code contenteditable="true">
+case class Node(val lastModified: Date, val created: Date)
+// case class Node(var lastModified: Date, var created: Date)
+// class Node(var lastModified: Date, var created: Date)
+        </code></pre>
+         <aside class="notes">
+         Well this is the correct way to write beans in Scala, using val's
+         so the data is immutable once this class has been created.
+
+         And when you have vals, you don't need getters, anyone can get the value
+         themselves since it'll never change. And when you have vals you certainly
+         don't need setters. So this is the real, idiomatic way to write it in Scala.
+
+         (It's a Scala conference, they'll be checking all slides for mutable state)
+        </aside>
+     </section>
+
+
+
+
+
+
+
+
+
+     <!-- boilerplate example 2 - singletons -->
+      <section> 
+        <pre><code contenteditable="true">
+public class DBManager {
+    private static DBManager s_instance = null;
+    
+    private DBManager() {
+        System.out.println("Initializing db");
+    }
+
+    public static DBManager getInstance() {
+        if ( s_instance == null ) {
+            s_instance = new DBManager();
+        }
+        return s_instance;
+    }
+}
+</code></pre>
+        <aside class="notes">
+        Here's another example, the singleton pattern in Java,
+        in which you privatize your constructor and wrap a
+        private global instance in a custom getter so that your 
+        class can only get instantiated no more than once.
+        </aside>
+      </section>
+      <section> 
+        <pre><code contenteditable="true">
+object DBManager { println("Initializing db") }
+        </code></pre>
+         <aside class="notes">
+         We call these objects, instantiated no more than once in the JVM,
+         the first time they're invoked. 
+
+         Really, anything more than this is unnecessary.
+        </aside>
+     </section>
+
+
+
+
+
+
+     <!-- boilerplate example 3 - anon classes for callbacks -->
+      <section> 
+        <pre><code contenteditable="true">
+String[] arr = { "xxx", "cd", "ab", "z" };
+
+Arrays.sort(arr, new Comparator<String>() {
+  @Override public int compare(String s1, String s2) {
+    return s1.length() - s2.length();
+  }           
+});        
+</code></pre>
+        <aside class="notes">
+        One last example, sorting an array of strings by their length
+        by defining an anonymous subclass of Comparator and passing
+        a new instance to the Arrays class so it can be used as a callback for sorting.
+
+        And, it works fine.
+        </aside>
+      </section>
+      <section> 
+        <pre><code contenteditable="true">
+val arr = Array( "xxx", "cd", "ab", "z" ).sortBy(_.size)
+        </code></pre>
+         <aside class="notes">
+         It's just too complex for what it does.
+        ... 
+        The important logic here is that you're sorting the
+        strings by their length, or size. So arrays in Scala
+        thoughtfully have a sortBy method where you can pass
+        in that very tidbit of logic, in a format known as
+        a function literal.
+        </aside>
+     </section>
+
+
+    <section>
+      <img src="images/fry_not_sure.png" height="500">
+      <aside class="notes">
+      This is a good thing. 
+      </aside>
+    </section>
+
+
+      <section> 
+        <h2>So what does this mean?</h2>
+        <ol>
+          <li class="fragment">Java is just fine</li>
+          <li class="fragment">Scala works just as well</li>
+          <li class="fragment">... but with less work </li>
+        </ol>
+        <aside class="notes">
+        * Here's what it means. There's nothing wrong with Java.<br>
+        ** Great performance. Fast. Stable. Easily deployable. Strongly typed.<br>
+        * All of which apply to Scala<br>
+        * But you get to work less with Scala. This is a good thing.
+        </aside>
+     </section>
+
+
+
+      <section> 
+        <h2>Scala Is...</h2>
+         <aside class="notes">
+         It means
+        </aside>
+     </section>
+
+
+      <section> 
+        <h2>Scala Is...</h2>
+        <div class="expressive c1">
+        Object Oriented
+        </div>
+         <aside class="notes">
+         In addition to providing the same or arguably better Object Oriented features than
+         Java and all of the other main languages
+        </aside>
+     </section>
+
+      <section> 
+        <h2>Scala Is...</h2>
+        <div class="expressive c2" style="">
+        Functional
+        </div>
+         <aside class="notes">
+         In addition to being a functional language, with full support for higher order
+         functions and immutable data structures
+        </aside>
+     </section>
+
+      <section> 
+        <h2>Scala Is...</h2>
+        <div class="expressive c3" style="">
+        Enigmatic
+        </div>
+         <aside class="notes">
+         And admittedly having a possibly well-deserved reputation as being somewhat
+         hard to fully grasp and learn
+        </aside>
+     </section>
+
+      <section> 
+        <h2>Scala Is...</h2>
+        <div class="expressive c4" >
+        Expressive
+        </div>
+         <aside class="notes">
+         Scala is a language that builds on the Java platform to help you write code that's
+         far more expressive than you could write in Java.<br>
+         And this is one of the best reasons to use it.
+        </aside>
+     </section>
+
+
+      <section> 
+        <h2>3 More Examples</h2>
+        <div class="expressive c4" >
+        Expressive
+        </div>
+         <aside class="notes">
+         Let me show you
+        </aside>
+     </section>
+
+
+
+
+     <!-- expressive example -->
+      <section> 
+        <h2>Example 1 - Java</h2>
+        <pre><code contenteditable="true">
+class NewHire {
+  public NewHire(name: String) {
+    this(name, new Date());
+  }
+  public NewHire(name: String, started: Date) {
+    this(name, started, false);
+  }
+  public NewHire(name: String, started: Date, isAdmin: Boolean) {
+  }
+}
+        </code></pre>
+      </section>
+      <section> 
+        <h2>Example 1 - Scala</h2>
+        <pre><code contenteditable="true">
+class NewHire(name: String, started: Date = new Date(), 
+  isAdmin: Boolean = false)         
+        </code></pre>
+     </section>
+
+
+
+     <!-- expressive example -->
+      <section> 
+        <h2>Example 2 - Java</h2>
+        <pre><code contenteditable="true">
+String getStatusMessage(int status) throws Exception {        
+  String msg = null;
+  switch (status) {
+    case 201: 
+      msg = "ok";
+      break;
+    case 500: 
+      msg = "error";
+      break;
+    default: 
+      throw new Exception(status + " was unexpected");
+  }
+  System.out.println("Returning '" + msg + "' for: " + status);
+  return msg;
+}
+        </code></pre>
+      </section>
+      <section> 
+        <h2>Example 2 - Scala</h2>
+        <pre><code contenteditable="true">
+def getStatusMessage(status: Int): String = {
+  var msg = status match {
+    case 200 => "ok"
+    case 500 => "error"
+    case _   => throw new Exception(s"$status was unexpected")
+  }
+  println(s"Returning '$msg' for: $status")
+  msg
+}
+        </code></pre>
+     </section>
+      <section> 
+        <h2>Example 2 - Scala</h2>
+        <pre><code contenteditable="true">
+def getStatusMessage(status: Int): Option[String] = {
+  var msg = status match {
+    case 200 => Some("ok")
+    case 500 => Some("error")
+    case _   => None
+  }
+  println(s"Returning '$msg' for: $status")
+  msg
+}
+        </code></pre>
+     </section>
+      <section> 
+        <h2>Example 2 - Scala</h2>
+        <pre><code contenteditable="true">
+def getStatusMessage(status: Int): Option[String] = {
+  status match {
+    case 200 => Some("ok")
+    case 500 => Some("error")
+    case _   => None
+  }
+}
+        </code></pre>
+     </section>
+
+
+
+     <!-- expressive example -->
+      <section> 
+        <h2>Example 3 - Java</h2>
+        <pre><code contenteditable="true">        
+StringBuffer buffer = new StringBuffer();
+buffer.append( "Hello " );
+buffer.append( name );
+buffer.append( ", you saved " );
+buffer.append( String.format("%.1f %", amount*100) );
+buffer.append( ", thanks for your business!" );
+        </code></pre>
+      </section>
+      <section> 
+        <h2>Example 3 - Scala</h2>
+        <pre><code contenteditable="true">
+f"Hello $name, you saved ${amount*100}%.1f, thanks for your business"
+        </code></pre>
+     </section>
+      <section> 
+        <h2>Example 3 - Scala</h2>
+        <pre><code contenteditable="true">
+"Hello %s, you saved %.1f, thanks for your business"
+  format (name, amount*100)
+        </code></pre>
+     </section>
+
+
+
+
+
+     <!-- expressive example -->
+      <section> 
+        <h2>Example 4 - Java</h2>
+        <pre><code contenteditable="true">
+boolean hasAdmin = false;
+for (User user: users) {
+    if ( user.isAdmin ) { hasAdmin = true; }
+}
+
+Set<String> userNames = new HashSet<String>();
+for (User user: users) {
+    userNames.add( user.name );
+}
+List<String> distinctUserNames = new ArrayList<String>(userNames);
+Collections.sort(distinctUserNames);
+        </code></pre>
+      </section>
+      <section> 
+        <h2>Example 4 - Scala</h2>
+        <pre><code contenteditable="true">
+val hasAdmin = users.exists(_.isAdmin)
+val userNames = users.map(_.name).distinct.sorted
+        </code></pre>
+     </section>
+
+
+
+
+    <section>
+      <img src="images/fry_not_sure2.png" height="500">
+      <aside class="notes">
+      This is a good thing. 
+      </aside>
+    </section>
+
+
+
+
+
+
+    <section>
+    <h1 style=" font: normal 200px Lobster,serif;">Thanks Everyone!</h1>
+    </section>
+
+
+    <section>
+    <h1 style="color: #89d; font: normal 210px Lobster,serif;">Questions?</h1>
+    </section>
+
+
+<!--
+NOTES
+
+Summary:
+Java developers are really good at generating new Singletons, Beans and Anonymous Classes but in the end this is all boilerplate code. In this introduction to Scala development targeted mainly at current Java developers (but open to everyone) we'll review how Scala lets developers bypass all the boilerplate and go straight to writing core business logic. A short intro to Scala and its syntax will be included, as well as a a full Question and Answer session for anyone wanting to (or already in) dive into Scala development.
+
+Intro Track
+* about me
+* what's this about a diet
+* less code is better - faster, less to maintain
+* if you like to code... stop coding!
+* overview of the track
+* check in with audience background preference
+
+
+
+Java On A Diet Track
+* Used to do a lot of Java
+* Joined a startup and switched to Scala
+* After enough time and mistakes it felt normal again
+* Noticed something after giving Java devs a 1 hr coding test
+** "I noticed you didn't write any unit tests"
+** .. yeah ran out of time
+** Most of the code wasn't essential to the solution
+** it was... just boilerplate, possibly useful if part of a larger solution
+** only half of the code was pertinent to the solution
+** so Java devs write boilerplate on auto
+** .. getters and setters always needed?
+** .. do you really need to write getInstance?
+** less code is better. Easier to write, read and maintain
+** After 20 years of Java its okay to use something more expressive.
+** Well it turns out that reducing boilerplate and creating a language
+more expressive than Java was kinda the ENTIRE POINT OF CREATING SCALA
+
+NOT SURE IF SCALA IS SHORTER BECAUSE ITS BETTER, OR BETTER BECAUSE ITS SHORTER
+NOT SURE IF SHORTER CODE = BETTER OR BETTER CODE = SHORTER
+
+NOT SURE IF TYPING LESS .. OR DOING MORE ...
+
+
+
+* So what boilerplate does it skip?
+** Getters and Setters automatically generated; Setters can be unnecessary
+** Built in singletons - no need for private static s_instance, getInstance, etc.
+** Default values and parameter naming make overloaded methods unnecessary
+** Default values and parameter naming make overloaded constructors unnecessary
+** Class params make constructors unnecessary
+** Higher order functions make imperative loops unnecessary
+** Higher order functions make anon classes unnecessary
+** Functions are shorter, saying "return" and braces unnecessary
+** Writing types is optional, type inf make some type statements unnecessary
+
+
+
+* Short Things
+** println("stuff") < System.out.println("stuff")
+** List(1,2,3) < Arrays.asList( new Array[] {1, 2, 3} );
+** no _throws_ statement < throws X,Y,Z
+** (1 to 10).foreach(println _) < for (int i = 0; i < 10; System.out.println("" + i) {}
+** 
+** 
+** 
+
+** Don't add throws exception and try..catch. If shit happens, let it get thrown. 
+** Wirte one-liners if that's easy. def isNull = x == null. You don't need to say "return", etc.
+** Don't require for loops that were magical in 1970. (1 to 10).foreach( i => println(s"$i) ") )
+** Yeah StringBuffer! append("Hey, done in "); append( duration ); append("Msecs"); or s"Hey, done in $duration msecs"
+** Use a test fwk that supports DSL. test("stuff happens"){}, don't annotate all over the place.
+** Type less, do more
+** 
+** 
+
+
+Intro to Scala Track
+* So, this is the end of the show, you probably know a bit of Scala now
+* It has a core expressiveness with its own type of syntax, vals vars and defs, default values, named params. Flexible!
+* It has OO support with regular classes vs singletons vs multi-inheritable traits. No statics - put non-static in classes or traits, static in objects. 
+
+* fd
+
+
+-->
+
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+      // Trim the content of the code blocks to fit better
+      var blocks = document.getElementsByTagName("code");
+      for (i = 0; i < blocks.length; i++) { blocks[i].innerHTML = blocks[i].innerHTML.trim(); }
+
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+              width: 960,
+              height: 505,
+              controls: true,
+              progress: true,
+              history: true,
+              center: false,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'none', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					// { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+
+          { src: 'custom/jquery.min.js', async: true, callback: jqueryCallback },
+					{ src: 'custom/highlight.js/highlight.pack.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+
+
+				]
+			});
+
+			function jqueryCallback() {
+				$('section').has('.fragment').append('<span class="fragment"> &rarr; </span>')
+			}
+
+
+
+		</script>
+
+	</body>
+</html>
