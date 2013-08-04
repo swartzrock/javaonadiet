@@ -1,4 +1,7 @@
-javaonadiet.github.io
-=====================
+Java on a Diet
+==================
 
-Java on a Diet talk at Silicon Valley Scala Symposium in August 2013
+Slide deck built with the excellent Reveal.js for a talk at the Silicon Valley Scala Symposium on August 2nd, 2013.
+
+Actual site for this repository is at swartzrock.github.io/javaonadiet/
+
